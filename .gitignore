@@ -1,34 +1,10 @@
+# memory for ai
+.github/
+.qwen/
+
 # Build directories
 build/
 bin/
-obj/
-
-# Executables
-*.exe
-*_debug.exe
-
-# Object files
-*.o
-*.d
-
-# IDE files
-*.layout
-*.bookmarks
-*.dev
-*.debug
-
-# Resource files (generated)
-*.res
 
 # CMake files
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
 Makefile
-
-# Windows
-Thumbs.db
-Desktop.ini
-
-# OS files
-.DS_Store
