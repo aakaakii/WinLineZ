@@ -1,6 +1,8 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 
+#include <math.h>
+
 struct icord {
 	int x, y;
 	icord() {} icord(int x, int y): x(x), y(y) {}
@@ -14,6 +16,7 @@ struct fcord {
 	icord cast() { return {(int)x, (int)y}; }
 	fcord(const icord& c): x(c.x), y(c.y) {}
 	fcord normalize();
+	float length() { return sqrtf(x * x + y * y); }
 };
 inline fcord operator+ (const fcord& x, const fcord& y) { return {x.x + y.x, x.y + y.y}; }
 inline fcord operator- (const fcord& x, const fcord& y) { return {x.x - y.x, x.y - y.y}; }

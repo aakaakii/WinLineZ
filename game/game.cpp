@@ -14,8 +14,6 @@ void Game::init() {
 	gridsize = 800.f / N;
 	post = {100, 100};
 	targ = {-1, -1};
-	icon.type = 0, icon.angularVel = PI / 240;
-	icon.size.setTar(10);
 }
 
 void Game::render(int mask) {
@@ -47,9 +45,8 @@ void Game::render(int mask) {
 	for(int i = 0; i < (int)particals.size(); ++i) {
 		auto& par = particals[i];
 		par.vlen += .1;
-		par.vel.setTar((fcord(145, 55) - par.pos).normalize() * par.vlen);
 		par.upd();
-		if(par.size < .5 || par.pos.y - par.size > 1000) {
+		if(par.size < 1 || par.pos.y - par.size > 1000) {
 			std::swap(par, particals.back());
 			particals.pop_back();
 			--i; continue;
@@ -66,23 +63,22 @@ void Game::render(int mask) {
 
 	score.upd();
 	char text[0xFF];
-	sprintf(text, "score: %d/1024 to win", (int)ceil(score.getVal()));
-	DrawText(text, 200, 40, 35, WHITE);
-	icon.upd(); ballColor[0] = ColorFromHSV(GetTime() * 10, 1, 1);
-	drawCellBall({100, 10}, icon);
+	sprintf(text, "SCORE: %d/1024", (int)ceil(score.getVal()));
+	DrawText(text, 100, 40, 35, GRAY);
 
 	if(ended) {
-		DrawRectangleRec({100, 100, 800, 800}, {0, 0, 0, 127});
-		auto w = MeasureText(present.data(), 50);
+		DrawRectangleRec({100, 100, 800, 800}, {0, 0, 0, 192});
+		auto w = MeasureText(present.data(), 200);
 		DrawText(present.data(), 500 - w/2, 500 - 50/2, 50, WHITE);
 	}
 
-	DrawRectangleRounded({100 + 10, 900 + 10, 800 - 20, 100 - 20}, .4, 16, GRAY);
+	Color rainbowc = ColorFromHSV(GetTime() * 10, .5, .5);
+	DrawRectangleRounded({100 + 10, 900 + 10, 800 - 20, 100 - 20}, .4, 16, DARKGRAY);
 	float ratio = score.getVal() / 1024, width = (800 - 30) * ratio;
 	float roundness;
 	if(width < 100 - 20) roundness = (.4 * (100 - 20) - 5) / width;
 	else roundness = .4;
-	DrawRectangleRounded({100 + 15, 900 + 15, (800 - 30) * ratio, 100 - 30}, .4, 16, RED);
+	DrawRectangleRounded({100 + 15, 900 + 15, (800 - 30) * ratio, 100 - 30}, .4, 16, ballColor[0]);
 
 
 	DrawFPS(920, 980);
@@ -171,10 +167,10 @@ int Game::checkClear() {
 	
 	auto generateParticle = [&](fcord pos, Cell& cell) {
 		static const float pi = acos(-1);
-		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(0, 1e9) / 1e8;
+		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(0, 2e8) / 1e8 + 1;
 		pos = pos + fcord(45, 45 - cell.shift.getVal());
 		particals.push_back(Partical{
-			pos, fcord(cos(t), sin(t)) * k, (float)rnd(3, 6), cell.type, 1
+			pos, fcord(cos(t), sin(t)) * k, rnd(200, 800) / 100.f, cell.type, 1
 		});
 	};
 	

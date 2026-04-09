@@ -4,8 +4,8 @@
 
 // Bloom 参数默认值
 float g_bloomThreshold = 0.4f;
-float g_bloomIntensity = 0.8f;
-int g_blurIterations = 4;
+float g_bloomIntensity = 2.f;
+int g_blurIterations = 8;
 
 // Bloom 相关资源
 static RenderTexture2D sceneTarget = {0};
