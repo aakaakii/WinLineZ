@@ -14,7 +14,7 @@
 
 ## 游戏截图
 
-<img width="1002" height="1027" alt="image" src="https://github.com/user-attachments/assets/d8d4257d-9bf5-48c5-86c4-c39339fac283" />
+<img width="1002" height="1021" alt="image" src="https://github.com/user-attachments/assets/39956d13-bdb2-4092-aecb-1c926ce2f8f4" />
 
 消除特效：
 <img width="1002" height="1021" alt="image" src="https://github.com/user-attachments/assets/0f9cda13-3e56-4a40-92a1-e46f3c558895" />
