@@ -20,27 +20,30 @@ void Game::init() {
 
 void Game::render(int mask) {
 	if(WindowShouldClose()) exit(0);
-	
-	if(!(mask & 1)) BeginDrawing();
-	ClearBackground({96, 96, 96, 255});
-	
-	for(int i=0;i<N;++i)for(int j=0;j<N;++j) map[i][j].innerG.setTar(0), map[i][j].innerR.setTar(0);
+
+	// 使用 bloom 渲染系统
+	if(!(mask & 1)) BeginBloomRender();
+
+	for(int i=0;i<N;++i)
+		for(int j=0;j<N;++j)
+			map[i][j].innerG.setTar(0), map[i][j].innerR.setTar(0);
+
 	if(targ.x != -1) {
 		auto [st, res] = map.getPath(targ, cursor);
-		if(st) for(auto& p: res) map[p].innerG.setTar(.2);
+		if(st) for(auto& p: res) map[p].innerG.setTar(.1);
 		else map[targ].innerR.setTar(.5), map[cursor].innerR.setTar(.5);
 	}
-	
+
 	for(int i = 0; i < N; ++i) {
 		for(int j = 0; j < N; ++j) {
 			auto& cell = map[i][j]; auto p = post + fcord(gridsize*i, gridsize*j);
-			
+
 			cell.upd();
 			drawCellBox(p, cell);
 			if(cell.type) drawCellBall(p, cell);
 		}
 	}
-	
+
 	for(int i = 0; i < (int)particals.size(); ++i) {
 		auto& par = particals[i];
 		par.vlen += .1;
@@ -52,38 +55,38 @@ void Game::render(int mask) {
 			--i; continue;
 		}
 //		DrawCircleV({par.pos.x, par.pos.y}, par.size+2, );
-		DrawCircleV({par.pos.x, par.pos.y}, par.size, ballColor[par.color]);
+		DrawCircleV({par.pos.x, par.pos.y}, par.size, colorMix(ballColor[par.color], WHITE, .5));
 	}
-	
+
 	for(int i = 0; i < ballCnt; ++i) {
 		auto p = fcord(95+(i+6)*gridsize, 5);
 		Cell temp; temp.type = next[i];
 		drawCellBall(p, temp);
 	}
-	
+
 	score.upd();
 	char text[0xFF];
 	sprintf(text, "score: %d/1024 to win", (int)ceil(score.getVal()));
 	DrawText(text, 200, 40, 35, WHITE);
 	icon.upd(); ballColor[0] = ColorFromHSV(GetTime() * 10, 1, 1);
 	drawCellBall({100, 10}, icon);
-	
+
 	if(ended) {
 		DrawRectangleRec({100, 100, 800, 800}, {0, 0, 0, 127});
 		auto w = MeasureText(present.data(), 50);
 		DrawText(present.data(), 500 - w/2, 500 - 50/2, 50, WHITE);
 	}
-	
+
 	DrawRectangleRounded({100 + 10, 900 + 10, 800 - 20, 100 - 20}, .4, 16, GRAY);
 	float ratio = score.getVal() / 1024, width = (800 - 30) * ratio;
 	float roundness;
 	if(width < 100 - 20) roundness = (.4 * (100 - 20) - 5) / width;
 	else roundness = .4;
 	DrawRectangleRounded({100 + 15, 900 + 15, (800 - 30) * ratio, 100 - 30}, .4, 16, RED);
-	
-	
+
+
 	DrawFPS(920, 980);
-	if(!(mask & 2)) EndDrawing();
+	if(!(mask & 2)) EndBloomRender();
 }
 
 void Game::updateEffect() {
@@ -137,7 +140,7 @@ void Game::attemptMove(icord s, icord t) {
 	
 	while(usedTime + 1 / 120.f < expectTime) {
 		usedTime += 1 / 120.f;
-		
+
 		interact(0);
 		updateEffect();
 		render(2);
@@ -148,7 +151,7 @@ void Game::attemptMove(icord s, icord t) {
 			int id = prog; float lef = prog - id;
 			auto p = res[id] + (res[id+1] - res[id]) * lef;
 			drawCellBall(p * gridsize + post, movedCell);
-		EndDrawing();
+		EndBloomRender();
 	}
 	std::swap(movedCell, map[res.back()]);
 	if(int cnt = checkClear(); !cnt) {
@@ -171,7 +174,7 @@ int Game::checkClear() {
 		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(0, 1e9) / 1e8;
 		pos = pos + fcord(45, 45 - cell.shift.getVal());
 		particals.push_back(Partical{
-			pos, fcord(cos(t), sin(t)) * k, rnd(3, 6), cell.type, 1
+			pos, fcord(cos(t), sin(t)) * k, (float)rnd(3, 6), cell.type, 1
 		});
 	};
 	

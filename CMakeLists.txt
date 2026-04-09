@@ -90,6 +90,27 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:DEBUG>
 )
 
+# ==================== 复制 Shader 文件 ====================
+# 定义 shader 源文件和目标位置
+set(SHADER_DIR ${CMAKE_SOURCE_DIR}/shaders)
+set(SHADER_OUTPUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)
+
+# 创建目标目录
+file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+
+# 复制所有 shader 文件到输出目录
+file(GLOB SHADER_FILES "${SHADER_DIR}/*")
+foreach(SHADER_FILE ${SHADER_FILES})
+    get_filename_component(SHADER_NAME ${SHADER_FILE} NAME)
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${SHADER_FILE}
+            ${SHADER_OUTPUT_DIR}/${SHADER_NAME}
+        COMMENT "Copying shader file: ${SHADER_NAME}"
+    )
+endforeach()
+
 # ==================== 打印配置信息 ====================
 message(STATUS "========================================")
 message(STATUS "WinLineZ Configuration")

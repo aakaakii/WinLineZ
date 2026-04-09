@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include <iostream>
 #include <string>
 
 Game game;
