@@ -13,16 +13,12 @@
 - 如果平面被填满了，你就输了！反之如果你在此之前得到了 1024 分，你就获胜了！
 
 游戏截图：
-<img width="1002" height="1027" alt="image" src="https://github.com/user-attachments/assets/d8d4257d-9bf5-48c5-86c4-c39339fac283" />
+<img width="1002" height="1021" alt="image" src="https://github.com/user-attachments/assets/39956d13-bdb2-4092-aecb-1c926ce2f8f4" />
 
 消除特效：
-<img width="1002" height="1027" alt="image" src="https://github.com/user-attachments/assets/35ccaafb-f48a-4f4f-aee8-724ae05b68a4" />
+<img width="1002" height="1021" alt="image" src="https://github.com/user-attachments/assets/0f9cda13-3e56-4a40-92a1-e46f3c558895" />
 
 哦不我输了 T_T
-<img width="1002" height="1027" alt="image" src="https://github.com/user-attachments/assets/ef9cf513-acfa-4904-a29a-23457505ab82" />
+<img width="1002" height="1021" alt="image" src="https://github.com/user-attachments/assets/e8cf6d01-a3fd-4387-adf6-de995f491d3f" />
 
-计划加入的功能：更多的自定义技能，可持久化的计分，等。
-
-不幸地，由于我在在 vscode 上配置 raylib 的尝试上失败了多次。我最终选用了 [小熊猫c++](http://royqh.net/redpandacpp/) 作为开发环境。所以其他人可能不能开箱即用 :<
-
-不过我相信对于任何想要修改然后编译我的代码而不仅仅是游玩的人来说这并非难事 :>
+运行 `./build.bat` 来编译，编译产物位于 `/bin/` 目录内。
