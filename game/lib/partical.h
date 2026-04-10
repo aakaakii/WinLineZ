@@ -12,9 +12,9 @@ struct Partical {
 	
 	void upd() {
 		pos = pos + vel;
-		vel = vel * .98;
+		vel = vel * .95;
 		if(vel.length() < .1) {
-			size *= .95; 
+			size *= .98; 
 		}
 	}
 };

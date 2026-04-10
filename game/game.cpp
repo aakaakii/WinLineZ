@@ -44,15 +44,15 @@ void Game::render(int mask) {
 
 	for(int i = 0; i < (int)particals.size(); ++i) {
 		auto& par = particals[i];
-		par.vlen += .1;
 		par.upd();
-		if(par.size < 1 || par.pos.y - par.size > 1000) {
+		if(par.size < .5) {
 			std::swap(par, particals.back());
 			particals.pop_back();
 			--i; continue;
 		}
-//		DrawCircleV({par.pos.x, par.pos.y}, par.size+2, );
-		DrawCircleV({par.pos.x, par.pos.y}, par.size, colorMix(ballColor[par.color], WHITE, .5));
+		Color color = colorMix(ballColor[par.color], WHITE, .5);
+		color.a = 192;
+		DrawCircleV({par.pos.x, par.pos.y}, par.size, color);
 	}
 
 	for(int i = 0; i < ballCnt; ++i) {
@@ -167,7 +167,7 @@ int Game::checkClear() {
 	
 	auto generateParticle = [&](fcord pos, Cell& cell) {
 		static const float pi = acos(-1);
-		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(0, 2e8) / 1e8 + 1;
+		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(2e8, 1e9) / 1e8;
 		pos = pos + fcord(45, 45 - cell.shift.getVal());
 		particals.push_back(Partical{
 			pos, fcord(cos(t), sin(t)) * k, rnd(200, 800) / 100.f, cell.type, 1
