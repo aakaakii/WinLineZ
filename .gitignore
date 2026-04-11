@@ -1,4 +1,4 @@
-# memory for ai
+# AI data
 .github/
 .qwen/
 
@@ -8,3 +8,6 @@ bin/
 
 # CMake files
 Makefile
+
+# Editor Settings
+.vscode/
