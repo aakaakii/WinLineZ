@@ -17,7 +17,7 @@ void main()
     // 线性混合
     vec3 color = sceneColor + bloomColor * bloomIntensity;
     
-    // ACES 色调映射 (电影级色调压缩)
+    // ACES 色调映射
     float a = 2.51;
     float b = 0.03;
     float c = 2.43;

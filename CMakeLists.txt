@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ==================== 编译选项配置 ====================
 # 编译优化选项
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-narrowing")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -s")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 
@@ -27,33 +27,18 @@ endif()
 
 # ==================== 目录配置 ====================
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-set(GAME_DIR ${CMAKE_SOURCE_DIR}/game)
-set(GAME_LIB_DIR ${CMAKE_SOURCE_DIR}/game/lib)
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 set(RAYLIB_DIR ${CMAKE_SOURCE_DIR}/raylib/raylib-5.5_win64_mingw-w64)
 
 # 输出目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# ==================== 源文件 ====================
-set(SOURCES
-    ${SRC_DIR}/main.cpp
-    ${GAME_DIR}/game.cpp
-    ${GAME_DIR}/interact.cpp
-    ${GAME_LIB_DIR}/consts.cpp
-    ${GAME_LIB_DIR}/gradient.cpp
-    ${GAME_LIB_DIR}/map.cpp
-    ${GAME_LIB_DIR}/partical.cpp
-    ${GAME_LIB_DIR}/render.cpp
-)
+# ==================== 自动搜索源文件和头文件 ====================
+# 递归搜索 src/ 目录下所有 .cpp 文件
+file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cpp")
 
-set(HEADERS
-    ${GAME_DIR}/game.h
-    ${GAME_LIB_DIR}/consts.h
-    ${GAME_LIB_DIR}/gradient.h
-    ${GAME_LIB_DIR}/map.h
-    ${GAME_LIB_DIR}/partical.h
-    ${GAME_LIB_DIR}/render.h
-)
+# 递归搜索 include/ 目录下所有 .h 文件
+file(GLOB_RECURSE HEADERS "${INCLUDE_DIR}/*.h")
 
 # ==================== 可执行文件 ====================
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
@@ -61,15 +46,15 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 # 添加头文件搜索路径
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${SRC_DIR}
+    ${INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}
-    ${GAME_DIR}
-    ${GAME_LIB_DIR}
     ${RAYLIB_DIR}/include
 )
 
-# ==================== 链接库 ====================
-link_directories(${RAYLIB_DIR}/lib)
+# 添加库目录
+target_link_directories(${PROJECT_NAME} PRIVATE ${RAYLIB_DIR}/lib)
 
+# ==================== 链接库 ====================
 target_link_libraries(${PROJECT_NAME} PRIVATE
     raylib
     opengl32

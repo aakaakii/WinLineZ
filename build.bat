@@ -14,7 +14,7 @@ REM ==============================================
 
 set BUILD_DIR=build
 set BIN_DIR=bin
-set TARGET=mylinez
+set TARGET=WinLineZ
 set "CMAKE=C:\Program Files\CMake\bin\cmake.exe"
 
 REM Add CMake to PATH
@@ -90,10 +90,6 @@ echo ==============================================
 echo.
 if exist "%BUILD_DIR%" rmdir /s /q "%BUILD_DIR%"
 if exist "%BIN_DIR%" rmdir /s /q "%BIN_DIR%"
-if exist "obj" rmdir /s /q "obj"
-if exist "mylinez.exe" del /q "mylinez.exe"
-if exist "mylinez_debug.exe" del /q "mylinez_debug.exe"
-for /r %%i in (*.o) do del /q "%%i" >nul 2>&1
 echo Clean complete!
 echo.
 goto end
