@@ -219,8 +219,8 @@ void drawCellBall(fcord p, Cell& cell) {
 	float size = 20 + cell.size.getVal(), shift = cell.shift.getVal(), rotation = cell.rotation.getVal();
 	p = p + fcord(gridsize/2, gridsize/2);
 	DrawRoundedRectRotated(p + fcord(0, 4), size * 1.2, rotation, .45, {16, 16, 16, 127});
-	DrawRoundedRectRotated(p + fcord(0,-2-shift), size * 1.2, rotation, .55, colorMix(color, DARKGRAY, .4));
-	DrawRoundedRectRotated(p + fcord(0,-2-shift), size, rotation, .5, colorMix(color, WHITE, .2));
+	// DrawRoundedRectRotated(p + fcord(0,-2-shift), size * 1.2, rotation, .55, colorMix(color, DARKGRAY, .4));
+	DrawRoundedRectRotated(p + fcord(0,-2-shift), size * 1.2, rotation, .5, colorMix(color, WHITE, .4));
 }
 
 void renderBox(fcord pos, Color color, float t) {

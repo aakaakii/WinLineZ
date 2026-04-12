@@ -51,7 +51,7 @@ void Game::render(int mask) {
 			--i; continue;
 		}
 		Color color = colorMix(ballColor[par.color], WHITE, .5);
-		color.a = 192;
+		// color.a = 192;
 		DrawCircleV({par.pos.x, par.pos.y}, par.size, color);
 	}
 
@@ -167,10 +167,10 @@ int Game::checkClear() {
 	
 	auto generateParticle = [&](fcord pos, Cell& cell) {
 		static const float pi = acos(-1);
-		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(2e8, 1e9) / 1e8;
+		float t = rnd(0, 2e8) * pi / 1e8, k = rnd(0, 6e8) / 1e8;
 		pos = pos + fcord(45, 45 - cell.shift.getVal());
 		particals.push_back(Partical{
-			pos, fcord(cos(t), sin(t)) * k, rnd(200, 800) / 100.f, cell.type, 1
+			pos, fcord(cos(t), sin(t)) * k, rnd(300, 800) / 100.f, cell.type, 1
 		});
 	};
 	

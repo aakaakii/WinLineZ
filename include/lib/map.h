@@ -5,7 +5,7 @@
 #include "consts.h"
 #include "gradient.h"
 
-const int N = 5;
+const int N = 9;
 extern float gridsize;
 
 struct Cell {
