@@ -15,8 +15,7 @@ void Game::interact(int processMouseEvent) {
 	cursor = ((getMouseCoord() - post) * (1. / gridsize)).cast();
 	cursor.x = clamp(cursor.x, 0, N-1), cursor.y = clamp(cursor.y, 0, N-1);
 	if(!processMouseEvent || ended) return ;
-	int mdown = IsMouseButtonPressed(0);
-	if(mdown) {
+	if(IsMouseButtonPressed(0)) {
 		if(map[cursor].type) {
 			if(cursor == targ) targ = {-1, -1};
 			else targ = cursor;
@@ -25,5 +24,8 @@ void Game::interact(int processMouseEvent) {
 				attemptMove(targ, cursor);
 			}
 		}
+	}
+	if(IsMouseButtonPressed(1)) {
+		targ = {-1, -1};
 	}
 }
